@@ -52,3 +52,9 @@ __temp*
 # Personal agent settings and instructions
 CLAUDE.local.md
 .claude/settings.local.json
+
+# Dev Quest
+.env
+Thumbs.db
+# собранные версии проектов публикуются в галерее
+!projects/**/dist/
