@@ -23,7 +23,7 @@ XP, уровень, бейдж и ваш отзыв появляются на к
    а ребёнок без аккаунта может открыть ваши комментарии. Загрузите туда эти файлы.
 2. **Actions.** Settings → Actions → General → *Workflow permissions*: «Read and write permissions» и галочка
    «Allow GitHub Actions to create and approve pull requests». Без этой галочки PR не будут создаваться.
-3. **Pages.** Settings → Pages → *Deploy from a branch* → `main` / `(root)`. Через пару минут карта будет
+3. **Pages.** Settings → Pages → *Deploy from a branch* → `master` / `(root)`. Через пару минут карта будет
    доступна по адресу `https://<ваш-логин>.github.io/dev-quest/`.
 4. **Метки.** Actions → «Метки для ревью» → *Run workflow* (если не запустился сам при первой загрузке).
 5. **Компьютер ребёнка.** Установите [VS Code](https://code.visualstudio.com/), [Git](https://git-scm.com/)

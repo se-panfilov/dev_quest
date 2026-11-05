@@ -22,7 +22,7 @@ window.HELP_CARDS = [
     html: `
 <table>
   <tr><td><code>git status</code></td><td>Что изменилось? (смотри часто)</td></tr>
-  <tr><td><code>git checkout main</code></td><td>Перейти на главную ветку</td></tr>
+  <tr><td><code>git checkout master</code></td><td>Перейти на главную ветку</td></tr>
   <tr><td><code>git pull</code></td><td>Скачать свежую версию (после проверок папы)</td></tr>
   <tr><td><code>git checkout -b quest/w1-q2</code></td><td>Новая ветка для квеста</td></tr>
   <tr><td><code>git add .</code></td><td>Подготовить все изменения к сейву</td></tr>

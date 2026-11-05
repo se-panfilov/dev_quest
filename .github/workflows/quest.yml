@@ -44,6 +44,7 @@ jobs:
           TESTS: ${{ steps.tests.outcome }}
         run: |
           BRANCH="$GITHUB_REF_NAME"
+          BASE="${{ github.event.repository.default_branch }}"
           ID="${BRANCH#quest/}"
           TITLE=$(node -e '
             const fs = require("fs"), vm = require("vm");
@@ -70,9 +71,9 @@ jobs:
 
           NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
           if [ -z "$NUM" ]; then
-            gh pr create --base main --head "$BRANCH" --title "$ID: $TITLE" --body-file "$RUNNER_TEMP/body.md" \
+            gh pr create --base "$BASE" --head "$BRANCH" --title "$ID: $TITLE" --body-file "$RUNNER_TEMP/body.md" \
               --assignee "$GITHUB_REPOSITORY_OWNER" \
-              || gh pr create --base main --head "$BRANCH" --title "$ID: $TITLE" --body-file "$RUNNER_TEMP/body.md"
+              || gh pr create --base "$BASE" --head "$BRANCH" --title "$ID: $TITLE" --body-file "$RUNNER_TEMP/body.md"
             NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
           else
             gh pr edit "$NUM" --body-file "$RUNNER_TEMP/body.md"

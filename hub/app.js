@@ -365,7 +365,7 @@
     const done = (q.done || []).map((d) => `<li>${esc(d)}</li>`).join("");
     const br = `quest/${id}`;
     const cmds = [
-      ["Перед началом", `git checkout main\ngit pull\ngit checkout -b ${br}\nmkdir -p projects/${id}`],
+      ["Перед началом", `git checkout master\ngit pull\ngit checkout -b ${br}\nmkdir -p projects/${id}`],
       ["Сохранить и сдать (можно повторять)", `git add .\ngit commit -m "${id}: ${q.title.replace(/"/g, "'")}"\ngit push -u origin ${br}`],
     ];
     const pr = S.prOf[id];
