@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Карта квестов</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik:wght@400;500;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="hub/style.css">
+</head>
+<body>
+  <header class="hero">
+    <div class="hero-inner">
+      <div class="player">
+        <div class="lvl" id="lvl" title="Уровень">1</div>
+        <div class="player-info">
+          <div class="player-name" id="playerName">Игрок</div>
+          <div class="player-title" id="playerTitle">Новичок</div>
+          <div class="xpbar"><div class="xpfill" id="xpFill"></div></div>
+          <div class="xptext" id="xpText">0 XP</div>
+        </div>
+      </div>
+      <div class="stats" id="stats"></div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <div id="sync" class="sync"></div>
+
+    <section class="next" id="next"></section>
+
+    <section class="feedback" id="feedback"></section>
+
+    <nav class="tabs" role="tablist">
+      <button class="tab active" data-tab="map">🗺️ Карта</button>
+      <button class="tab" data-tab="badges">🏅 Бейджи</button>
+      <button class="tab" data-tab="gallery">🖼️ Галерея</button>
+      <button class="tab" data-tab="help">📜 Шпаргалки</button>
+    </nav>
+
+    <section class="panel" id="tab-map"></section>
+    <section class="panel hidden" id="tab-badges"></section>
+    <section class="panel hidden" id="tab-gallery"></section>
+    <section class="panel hidden" id="tab-help"></section>
+  </main>
+
+  <dialog id="questDialog">
+    <div class="dlg" id="questBody"></div>
+  </dialog>
+
+  <div id="toast" class="toast"></div>
+
+  <script src="hub/config.js"></script>
+  <script src="hub/progress.js"></script>
+  <script src="hub/quests.js"></script>
+  <script src="hub/help.js"></script>
+  <script src="hub/app.js"></script>
+</body>
+</html>

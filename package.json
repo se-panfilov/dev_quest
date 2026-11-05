@@ -1,0 +1,9 @@
+{
+  "name": "dev-quest",
+  "private": true,
+  "type": "module",
+  "description": "Учебный путь: квесты, упражнения и проекты",
+  "scripts": {
+    "test": "node --test"
+  }
+}

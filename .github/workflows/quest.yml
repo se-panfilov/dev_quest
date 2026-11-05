@@ -1,0 +1,90 @@
+# Когда ученица отправляет ветку quest/<номер>, этот workflow:
+#  1) запускает тесты в projects/<номер>/ (если они есть),
+#  2) открывает pull request на проверку (или обновляет его описание отчётом).
+name: Квест на проверку
+
+on:
+  push:
+    branches: ["quest/**"]
+
+permissions:
+  contents: read
+  pull-requests: write
+  issues: write
+
+concurrency:
+  group: ${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  submit:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Тесты квеста
+        id: tests
+        continue-on-error: true
+        run: |
+          ID="${GITHUB_REF_NAME#quest/}"
+          DIR="projects/$ID"
+          if [ -d "$DIR" ] && find "$DIR" -name "*.test.*" -not -path "*/node_modules/*" | grep -q .; then
+            cd "$DIR" && node --test
+          else
+            echo "В $DIR нет тестов — пропускаю."
+          fi
+
+      - name: Открыть или обновить pull request
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TESTS: ${{ steps.tests.outcome }}
+        run: |
+          BRANCH="$GITHUB_REF_NAME"
+          ID="${BRANCH#quest/}"
+          TITLE=$(node -e '
+            const fs = require("fs"), vm = require("vm");
+            const ctx = { window: {} };
+            vm.runInNewContext(fs.readFileSync("hub/quests.js", "utf8"), ctx);
+            const d = ctx.window.QUEST_DATA;
+            const all = [...d.worlds, ...(d.bonusWorlds || [])].flatMap((w) => w.quests);
+            const q = all.find((q) => q.id === process.argv[1]);
+            console.log(q ? q.title : "свободная работа");
+          ' "$ID")
+          REPORT="projects/$ID/README.md"
+          {
+            echo "## 📝 Отчёт"
+            echo
+            if [ -f "$REPORT" ]; then cat "$REPORT"; else echo "_Файл $REPORT не найден — попроси дописать отчёт._"; fi
+            echo
+            case "$TESTS" in
+              success) echo "**Автотесты:** ✅ зелёные (или тестов в квесте нет)";;
+              failure) echo "**Автотесты:** ❌ есть красные — см. вкладку Checks";;
+            esac
+            echo
+            cat .github/review-checklist.md
+          } > "$RUNNER_TEMP/body.md"
+
+          NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number // empty')
+          if [ -z "$NUM" ]; then
+            gh pr create --base main --head "$BRANCH" --title "$ID: $TITLE" --body-file "$RUNNER_TEMP/body.md" \
+              --assignee "$GITHUB_REPOSITORY_OWNER" \
+              || gh pr create --base main --head "$BRANCH" --title "$ID: $TITLE" --body-file "$RUNNER_TEMP/body.md"
+            NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
+          else
+            gh pr edit "$NUM" --body-file "$RUNNER_TEMP/body.md"
+          fi
+
+          # Раздел «## Вопрос» в отчёте → метка «нужна-помощь»
+          if [ -f "$REPORT" ] && grep -qiE '^##+ *вопрос' "$REPORT"; then
+            gh pr edit "$NUM" --add-label "нужна-помощь" || true
+          fi
+
+      - name: Отметить красные тесты
+        if: steps.tests.outcome == 'failure'
+        run: |
+          echo "::error::Автотесты квеста не прошли"
+          exit 1

@@ -1,0 +1,10 @@
+/* Это базовый стиль. Сделай викторину красивой по-своему! */
+body { margin: 0; font-family: system-ui, sans-serif; background: #14172b; color: #eef0ff; }
+main { max-width: 560px; margin: 40px auto; padding: 0 16px; text-align: center; }
+.options { display: grid; gap: 10px; margin-top: 16px; }
+button { padding: 14px; font-size: 18px; border-radius: 12px; border: 2px solid #2f3657; background: #1f2440; color: inherit; cursor: pointer; }
+button:hover:not(:disabled) { border-color: #7aa2ff; }
+button.ok { background: #1f6b3d; border-color: #4de08a; }
+button.bad { background: #6b1f2b; border-color: #ff6b8b; }
+.progress { color: #9aa1c7; }
+.big { font-size: 48px; font-weight: 800; margin: 0; }
