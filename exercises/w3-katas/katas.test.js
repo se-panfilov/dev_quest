@@ -17,7 +17,7 @@ test("2. isEven", () => {
 });
 
 test("3. greet", () => {
-  assert.equal(greet("Кира"), "Привет, Кира!");
+  assert.equal(greet("Лара"), "Привет, Лара!");
   assert.equal(greet("Steve"), "Привет, Steve!");
   assert.equal(greet(""), "Привет, незнакомец!");
 });

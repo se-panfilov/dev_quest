@@ -2,7 +2,10 @@
   "use strict";
 
   const D = window.QUEST_DATA;
-  const CFG = Object.assign({ playerName: "Игрок", reviewerName: "Ревьюер", owner: "", repo: "" }, window.HUB_CONFIG || {});
+  const CFG = Object.assign({ playerName: "", gender: "", reviewerName: "", owner: "", repo: "" }, window.HUB_CONFIG || {});
+  const PLAYER = String(CFG.playerName || "").trim() || "Безымянный NPC";
+  const REVIEWER = String(CFG.reviewerName || "").trim() || "ревьюер";
+  const FEM = String(CFG.gender || "").trim().toLowerCase().startsWith("f");
   const MANUAL = new Set(window.MANUAL_PROGRESS || []);
   const CACHE_KEY = "hub-cache-v1";
   const CACHE_MS = 5 * 60 * 1000;
@@ -10,6 +13,12 @@
   // ---------- helpers ----------
   const $ = (s, r = document) => r.querySelector(s);
   const esc = (s) => String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+  // Подстановка {reviewer} и {name} в тексты квестов
+  // (если ревьюер не задан, «ревьюеру ({reviewer})» превращается просто в «ревьюеру»)
+  const HAS_REVIEWER = REVIEWER !== "ревьюер";
+  const tx = (s, f = (x) => x) => String(s)
+    .replace(/ \(\{reviewer\}\)| — \{reviewer\}/g, (m) => (HAS_REVIEWER ? m : ""))
+    .replace(/\{reviewer\}/g, f(REVIEWER)).replace(/\{name\}/g, f(PLAYER));
   const store = {
     get(k, d) { try { const v = localStorage.getItem(k); return v == null ? d : JSON.parse(v); } catch (e) { return d; } },
     set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch (e) { /* ignore */ } },
@@ -182,7 +191,11 @@
     while (xp >= floor + step) { floor += step; lvl++; step += 50; }
     return { lvl, floor, next: floor + step };
   }
-  const titleOf = (lvl) => D.titles[lvl - 1] || `Разработчик, ур. ${lvl}`;
+  const titleOf = (lvl) => {
+    const t = D.titles[lvl - 1];
+    if (!t) return `Разработчик, ур. ${lvl}`;
+    return Array.isArray(t) ? t[FEM ? 1 : 0] : t;
+  };
 
   // ---------- render ----------
   let S = null;
@@ -190,7 +203,7 @@
 
   function render() {
     const L = levelOf(S.xp);
-    $("#playerName").textContent = CFG.playerName;
+    $("#playerName").textContent = PLAYER;
     $("#lvl").textContent = L.lvl;
     $("#playerTitle").textContent = titleOf(L.lvl);
     $("#xpFill").style.width = Math.round(((S.xp - L.floor) / (L.next - L.floor)) * 100) + "%";
@@ -260,7 +273,7 @@
   function renderFeedback() {
     const c = (REMOTE.comments || []).slice(0, 3);
     if (!c.length) { $("#feedback").innerHTML = ""; return; }
-    $("#feedback").innerHTML = `<h2>💬 Отзывы: ${esc(CFG.reviewerName)}</h2>` + c.map((x) => `
+    $("#feedback").innerHTML = `<h2>💬 Отзывы: ${esc(REVIEWER)}</h2>` + c.map((x) => `
       <a class="fb" href="${esc(x.url)}" target="_blank" rel="noopener">
         <div class="fb-head">${x.approved ? "✅ " : ""}<b>${esc(QUESTS[x.quest] ? QUESTS[x.quest].title : x.quest)}</b> · ${new Date(x.at).toLocaleDateString("ru")}</div>
         <div class="fb-body">${esc(x.body).slice(0, 600).replace(/\n/g, "<br>")}</div>
@@ -302,7 +315,7 @@
         <div class="world-pct">${p.d}/${p.n}</div>
       </div>
       <div class="wbar"><div style="width:${pct}%"></div></div>
-      ${open ? `<p class="world-intro">${esc(w.intro)}</p>` : `<p class="world-intro">${lockMsg}</p>`}
+      ${open ? `<p class="world-intro">${esc(tx(w.intro))}</p>` : `<p class="world-intro">${lockMsg}</p>`}
       ${open ? `<div class="tiles">${tiles}</div>` : ""}
     </div>`;
   }
@@ -314,7 +327,7 @@
       if (w.unlock) {
         const b = w.quests.find((q) => q.type === "boss");
         const got = b && S.status[b.id] === "done";
-        html += `<div class="unlock ${got ? "got" : ""}"><span>${w.unlock.emoji}</span><div><b>${got ? "" : "🔒 "}${esc(w.unlock.title)}</b><br>${esc(w.unlock.text)}</div></div>`;
+        html += `<div class="unlock ${got ? "got" : ""}"><span>${w.unlock.emoji}</span><div><b>${got ? "" : "🔒 "}${esc(w.unlock.title)}</b><br>${esc(tx(w.unlock.text))}</div></div>`;
       }
       if (w.index === 4) bonusWorlds.forEach((bw) => { html += renderWorld(bw); });
     });
@@ -330,7 +343,7 @@
     }).join("");
     const auto = S.auto.map((b) => `<div class="badge got"><div class="badge-e">${b.emoji}</div><b>${esc(b.title)}</b><span>${esc(b.text)}</span></div>`).join("");
     $("#tab-badges").innerHTML = `
-      <h2>Бейджи мастерства</h2><p class="muted">Их выдаёт ${esc(CFG.reviewerName)} на проверке — за то, <i>как</i> ты работала.</p>
+      <h2>Бейджи мастерства</h2><p class="muted">Их выдаёт ${esc(REVIEWER)} на проверке — за то, <i>как</i> ты работаешь.</p>
       <div class="badges">${special}</div>
       <h2>Достижения</h2><p class="muted">Открываются сами.</p>
       <div class="badges">${auto || '<p class="muted">Пока пусто — сдай первый квест!</p>'}</div>`;
@@ -347,7 +360,7 @@
 
   function renderHelp() {
     $("#tab-help").innerHTML = (window.HELP_CARDS || []).map((c, i) =>
-      `<details class="help" ${i === 0 ? "open" : ""}><summary>${c.emoji} ${esc(c.title)}</summary><div class="help-body">${c.html}</div></details>`).join("");
+      `<details class="help" ${i === 0 ? "open" : ""}><summary>${c.emoji} ${esc(c.title)}</summary><div class="help-body">${tx(c.html, esc)}</div></details>`).join("");
   }
 
   // ---------- quest dialog ----------
@@ -359,10 +372,10 @@
     const w = q.world;
     const steps = (q.steps || []).map((s, i) => {
       const k = `step:${id}:${i}`;
-      return `<label class="step"><input type="checkbox" data-step="${k}" ${store.get(k, false) ? "checked" : ""}><span>${esc(s)}</span></label>`;
+      return `<label class="step"><input type="checkbox" data-step="${k}" ${store.get(k, false) ? "checked" : ""}><span>${esc(tx(s))}</span></label>`;
     }).join("");
     const learn = (q.learn || []).map((l) => `<li><a href="${esc(l.url)}" target="_blank" rel="noopener">${esc(l.label)}</a></li>`).join("");
-    const done = (q.done || []).map((d) => `<li>${esc(d)}</li>`).join("");
+    const done = (q.done || []).map((d) => `<li>${esc(tx(d))}</li>`).join("");
     const br = `quest/${id}`;
     const cmds = [
       ["Перед началом", `git checkout master\ngit pull\ngit checkout -b ${br}\nmkdir -p projects/${id}`],
@@ -385,9 +398,9 @@
       </div>
       ${learn ? `<h3>📚 Что изучить</h3><ul class="learn">${learn}</ul>` : ""}
       <h3>🛠 Что сделать</h3><div class="steps">${steps}</div>
-      ${q.note ? `<p class="tip">${esc(q.note)}</p>` : ""}
+      ${q.note ? `<p class="tip">${esc(tx(q.note))}</p>` : ""}
       <h3>🎯 Готово, когда</h3><ul class="done">${done}<li>${esc("В папке projects/" + id + "/ есть README.md — твой отчёт")}</li></ul>
-      ${q.bonus ? `<div class="bonus">⚡ ${esc(q.bonus)}</div>` : ""}
+      ${q.bonus ? `<div class="bonus">⚡ ${esc(tx(q.bonus))}</div>` : ""}
       <h3>📤 Как сдать</h3>
       ${cmds.map(([t, c]) => `<div class="cmd"><div class="cmd-t">${t}<button class="copy" data-copy="${esc(c)}">копировать</button></div><pre>${esc(c)}</pre></div>`).join("")}
       <p class="muted">После push через минуту квест станет «на проверке». Следующий квест можно начинать сразу.</p>`;

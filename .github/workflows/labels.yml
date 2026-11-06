@@ -1,12 +1,12 @@
-# Создаёт метки для бонусов XP и бейджей. Запускается сам при первой загрузке
-# и вручную из вкладки Actions (Run workflow).
+# Создаёт метки для бонусов XP и бейджей. Обычно не нужен: метки создаются
+# сами при первой сдаче квеста. Можно запустить вручную: Actions → Run workflow.
 name: Метки для ревью
 
 on:
   workflow_dispatch:
   push:
     branches: [master, main]
-    paths: [".github/workflows/labels.yml"]
+    paths: [".github/labels.sh"]
 
 permissions:
   issues: write
@@ -15,20 +15,8 @@ jobs:
   labels:
     runs-on: ubuntu-latest
     steps:
+      - uses: actions/checkout@v4
       - env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-        run: |
-          mk() { gh label create "$1" --color "$2" --description "$3" --force; }
-          mk "xp+25"  "fbca04" "Бонус +25 XP"
-          mk "xp+50"  "fbca04" "Бонус +50 XP"
-          mk "xp+100" "fbca04" "Бонус +100 XP"
-          mk "badge:nohints"    "5319e7" "🧠 Без подсказок"
-          mk "badge:detective"  "5319e7" "🔍 Нашла баг через DevTools/отладчик"
-          mk "badge:explainer"  "5319e7" "🗣️ Понятно объяснила решение"
-          mk "badge:creative"   "5319e7" "🎨 Сделала больше, чем просили"
-          mk "badge:clean"      "5319e7" "🧹 Аккуратный код"
-          mk "badge:tester"     "5319e7" "🧪 Тесты"
-          mk "badge:persistent" "5319e7" "💪 Не сдалась"
-          mk "badge:design"     "5319e7" "✨ Очень красиво"
-          mk "нужна-помощь"     "d93f0b" "Ученица задала вопрос в отчёте"
+        run: bash .github/labels.sh

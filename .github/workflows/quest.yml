@@ -1,6 +1,10 @@
-# Когда ученица отправляет ветку quest/<номер>, этот workflow:
+# Когда ученик отправляет ветку quest/<номер>, этот workflow:
 #  1) запускает тесты в projects/<номер>/ (если они есть),
-#  2) открывает pull request на проверку (или обновляет его описание отчётом).
+#  2) при первом запуске создаёт метки для XP и бейджей,
+#  3) открывает pull request на проверку (или обновляет его описание отчётом).
+# Работает в любом форке: PR открывается внутри того же репозитория, а не в оригинале.
+# Необязательно: переменная репозитория REVIEWER (Settings → Secrets and variables →
+# Actions → Variables) с логином ментора — тогда он будет назначен ревьюером PR.
 name: Квест на проверку
 
 on:
@@ -38,9 +42,22 @@ jobs:
             echo "В $DIR нет тестов — пропускаю."
           fi
 
+      - name: Метки для ревью (один раз)
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+        run: |
+          if gh label list --limit 200 --json name --jq '.[].name' | grep -qx 'xp+25'; then
+            echo "Метки уже есть."
+          else
+            bash .github/labels.sh || echo "::warning::Не удалось создать метки"
+          fi
+
       - name: Открыть или обновить pull request
         env:
           GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          REVIEWER: ${{ vars.REVIEWER }}
           TESTS: ${{ steps.tests.outcome }}
         run: |
           BRANCH="$GITHUB_REF_NAME"
@@ -77,6 +94,10 @@ jobs:
             NUM=$(gh pr list --head "$BRANCH" --state open --json number --jq '.[0].number')
           else
             gh pr edit "$NUM" --body-file "$RUNNER_TEMP/body.md"
+          fi
+
+          if [ -n "$REVIEWER" ]; then
+            gh pr edit "$NUM" --add-reviewer "$REVIEWER" || echo "::warning::Не удалось назначить ревьюера $REVIEWER (он collaborator?)"
           fi
 
           # Раздел «## Вопрос» в отчёте → метка «нужна-помощь»
