@@ -9,12 +9,12 @@ description: Creates and maintains concise AGENTS.md and CLAUDE.md project instr
 
 ## Project integration
 
-Прочитай [AGENTS.md](../../../AGENTS.md) до того, как применять порядок работы ниже.
-Сохрани импорт в `CLAUDE.md` (`@AGENTS.md`). Не заменяй его символической ссылкой: у ученика может быть Windows.
-Ограничение по числу строк — ориентир. Не удаляй ради него правила безопасности, уровни ИИ и решения человека.
-Подробности выноси в skills и `docs/`, в AGENTS.md оставляй короткое правило и указатель.
-Примеры менеджера пакетов и подписи коммитов ниже — только примеры.
-Сохраняй язык и правила письма проекта: [docs/WRITING.md](../../../docs/WRITING.md).
+Read [AGENTS.md](../../../AGENTS.md) before you apply the workflow below.
+Keep the `CLAUDE.md` import (`@AGENTS.md`). Do not replace it with a symbolic link: the learner can use Windows.
+Treat line-count targets as guidance. Do not remove safety rules, learner levels, or human decisions to meet them.
+Move details to skills and `docs/`. Keep a short rule and a pointer in AGENTS.md.
+The sample package manager and commit attribution below are examples.
+Write agent instructions in English by [docs/WRITING.md](../../../docs/WRITING.md).
 
 ## Upstream workflow
 

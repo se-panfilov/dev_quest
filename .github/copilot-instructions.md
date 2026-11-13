@@ -1,4 +1,4 @@
-# Инструкции для репозитория
+# Repository instructions
 
-Прочитай и выполняй [AGENTS.md](../AGENTS.md) перед любой работой в этом репозитории.
-Это единый источник правил для ИИ-агентов. Здесь правила не дублируются.
+Read and follow [AGENTS.md](../AGENTS.md) before you work in this repository.
+It is the single source of agent rules. Do not copy rules here.

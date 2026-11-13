@@ -9,14 +9,11 @@ description: Guide users through a structured workflow for co-authoring document
 
 ## Project integration
 
-Прочитай [AGENTS.md](../../../AGENTS.md) и [правила письма](../../../docs/WRITING.md) до того, как применять порядок работы ниже.
-Документы этого репозитория пишутся на русском. Вопросы и обсуждение — тоже на русском. Английские термины допустимы.
-Отчёт квеста (`projects/<номер>/README.md`) ученик пишет сам. Для него skill не применяй: можно только подсказать, о чём написать.
-Ученику skill подходит для больших текстов: README своего проекта, план проекта мира 8.
-Reader Testing через subagent — только если он есть в хосте и пользователь согласен. Не отправляй текст во внешние сервисы.
-
-
-This skill provides a structured workflow for guiding users through collaborative document creation. Act as an active guide, walking users through three stages: Context Gathering, Refinement & Structure, and Reader Testing.
+Read [AGENTS.md](../../../AGENTS.md) and [docs/WRITING.md](../../../docs/WRITING.md) before you apply the workflow below.
+Repository documents are in Russian. Ask and discuss in Russian. English terms are allowed.
+The learner writes the quest report (`projects/<quest-id>/README.md`). Do not use this skill for it. You can only suggest topics.
+For the learner, this skill fits large texts: a project README, the world 8 project plan.
+Use Reader Testing with a subagent only if the host has one and the user agrees. Do not send the text to external services.
 
 ## When to Offer This Workflow
 

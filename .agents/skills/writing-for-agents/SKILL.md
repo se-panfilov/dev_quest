@@ -7,12 +7,12 @@ description: Writing documents for agents. Use when creating or editing skills, 
 
 ## Project integration
 
-Прочитай [AGENTS.md](../../../AGENTS.md) и [правила письма](../../../docs/WRITING.md) до того, как применять справку ниже.
-Используй её вместе со skill [agents-md](../agents-md/SKILL.md): тот даёт порядок работы, эта справка — принципы письма.
-Не удаляй и не ослабляй правила безопасности, уровни ИИ ученика и решения человека, чтобы сократить контекст. Это решает человек.
-Запрет оставляй запретом. Рядом можно написать, что делать вместо этого.
-`disable-model-invocation` — поле Claude Code. Другие хосты его не знают. Общие skills должны работать во всех хостах из [описания настройки агентов](../../../docs/AI_AGENTS.md).
-Правила и skills этого репозитория пишутся на русском. Текст upstream ниже остаётся как есть.
+Read [AGENTS.md](../../../AGENTS.md) and [docs/WRITING.md](../../../docs/WRITING.md) before you apply the reference below.
+Use it with [agents-md](../agents-md/SKILL.md). That skill gives the procedure. This reference gives the writing principles.
+Do not remove or weaken safety rules, learner levels, or human decisions to reduce context load. That needs a human decision.
+Keep a security prohibition as a prohibition. Add the positive target behavior next to it when that helps.
+`disable-model-invocation` is Claude Code frontmatter. Other hosts can ignore it. Keep shared skills usable by all hosts in [docs/AI_AGENTS.md](../../../docs/AI_AGENTS.md).
+Write agent instructions in English. The rules about the language of communication with the learner stay in AGENTS.md.
 
 ## Reference
 

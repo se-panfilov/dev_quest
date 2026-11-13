@@ -1,60 +1,60 @@
 ---
 name: code-standards
-description: Стандарты кода для проектов ученика и шаблона. Use before writing, suggesting, or reviewing code in projects/, exercises/, or hub/.
+description: Code standards for learner projects and the template. Use before you write, suggest, or review code in projects/, exercises/, or hub/.
 ---
 
-# Стандарты кода
+# Code standards
 
-Стандарты взяты из se-panfilov/modern_monorepo_template и уменьшены под учебный репозиторий.
-Прочитай [AGENTS.md](../../../AGENTS.md). Уровень ИИ ученика решает, *кто* пишет код. Этот skill решает, *каким* он должен быть.
-Тот же стандарт применяй, когда объясняешь или проверяешь код ученика: показывай, как сделать по стандарту, и объясняй зачем.
+Adapted from se-panfilov/modern_monorepo_template for a learning repository.
+Read [AGENTS.md](../../../AGENTS.md). The learner level decides *who* writes code. This skill decides *how* the code looks.
+Use the same standard when you explain or review learner code: show the standard way and say why.
 
-## Какой стек где
+## Stack per world
 
-Бери стек из квеста и из `package.json` проекта. Не добавляй инструмент, которого нет в квесте, без просьбы ученика и согласия ментора.
+Take the stack from the quest and from the project `package.json`. Do not add a tool that the quest does not name, unless the learner asks and the mentor agrees.
 
-| Миры | Стек | Тесты |
+| Worlds | Stack | Tests |
 | --- | --- | --- |
-| 1–4 и `hub/` | HTML, CSS, JavaScript без сборки | `node --test` |
-| 5 | npm, Vite, TypeScript | `node --test` или Vitest, если квест его называет |
-| 6 | Vue 3 + TypeScript, Vue Router | Vitest и `@vue/test-utils`, если они есть в проекте |
+| 1–4 and `hub/` | HTML, CSS, JavaScript, no build | `node --test` |
+| 5 | npm, Vite, TypeScript | `node --test`, or Vitest if the quest names it |
+| 6 | Vue 3 + TypeScript, Vue Router | Vitest and `@vue/test-utils` if the project has them |
 | 7 | Node.js: `node:http`, `node:fs`, `node:sqlite` | `node --test` |
-| 8 | То, что выбрано в плане проекта | То же |
+| 8 | The stack from the project plan | Same |
 
-## Общие правила
+## General
 
-- Следуй `.editorconfig` и [Prettier-конфигурации](../../../configs/prettier.config.mjs) репозитория. Правь исходники, не сгенерированный вывод.
-- Имена переменных, функций и файлов — на английском, понятные: `score`, `loadQuestions`, `isGameOver`.
-- Комментарии — на русском. Комментарий объясняет *почему*, а не пересказывает код.
-- Одна функция — одна задача. Логику держи отдельно от DOM и UI, чтобы её можно было тестировать.
-- Сначала встроенные возможности: Web API в браузере, `node:fs`, `node:path`, `node:crypto` в Node.js.
-- Зависимость добавляй, только если без неё заметно хуже. Назови причину, лицензию и размер. Ставь точную версию (`npm install --save-exact`), коммить `package-lock.json`.
-- Не меняй тест, чтобы он прошёл. Меняй код или сообщи об ошибке в тесте.
+- Follow `.editorconfig` and the [Prettier config](../../../configs/prettier.config.mjs). Edit source, not generated output.
+- Names of variables, functions, and files: English and clear (`score`, `loadQuestions`, `isGameOver`).
+- Code comments: Russian. A comment tells *why*, not *what*.
+- One function does one job. Keep logic apart from the DOM and the UI, so tests can reach it.
+- Use built-ins first: Web APIs in the browser; `node:fs`, `node:path`, `node:crypto` in Node.js.
+- Add a dependency only when it clearly helps. State the reason, the license, and the size. Pin the exact version (`npm install --save-exact`). Commit `package-lock.json`.
+- Do not change a test to make it pass. Change the code, or report the test defect.
 
-## TypeScript (мир 5 и дальше)
+## TypeScript (world 5 and later)
 
-- `strict: true` в `tsconfig.json`. `any` запрещён: квест прямо так говорит. Не знаешь тип — `unknown` и проверка.
-- Типы проверяет отдельный шаг: `tsc --noEmit` или `vue-tsc --noEmit`. Vite только убирает типы, но не проверяет их.
-- Данные снаружи (`fetch`, `localStorage`, файл JSON, форма) проверяй во время работы программы. Тип в TypeScript этого не гарантирует.
+- `strict: true` in `tsconfig.json`. No `any` (the quest forbids it). Unknown type: use `unknown` and check it.
+- Check types in a separate step: `tsc --noEmit` or `vue-tsc --noEmit`. Vite removes types but does not check them.
+- Validate data from outside (`fetch`, `localStorage`, JSON files, forms) at run time. Types do not prove that data is valid.
 
-## Vue (мир 6 и дальше)
+## Vue (world 6 and later)
 
-- Composition API и `<script setup lang="ts">`.
-- Логику игры и данных держи в обычных модулях `.ts`. Компонент показывает состояние и передаёт действия пользователя.
-- Не выводи данные пользователя или сервера через `v-html`. URL из данных проверяй перед `href` и `src`.
+- Composition API with `<script setup lang="ts">`.
+- Keep game and data logic in plain `.ts` modules. Components show state and send user actions.
+- Do not render user or server data with `v-html`. Check URLs from data before `href` and `src`.
 
-## Сервер и база (мир 7 и дальше)
+## Server and database (world 7 and later)
 
-- Проверяй тело запроса: тип, обязательные поля, ограничение размера. Неверный запрос — ответ `400`, а не падение сервера.
-- SQL — только с параметрами (`?`), никогда не склеивай строку запроса с данными пользователя.
-- Пароли — только как hash (`node:crypto` `scrypt`), никогда в открытом виде.
-- Секреты — в переменных окружения и `.env`, который в `.gitignore`. Не в коде, не в логах, не в браузере.
-- Ошибка сервера не показывает пользователю внутренности: stack trace, SQL, пути к файлам.
-- Внешние программы запускай с массивом аргументов, без `shell: true` и без склейки строки команды.
+- Validate the request body: type, required fields, size limit. A bad request gets `400`, the server does not crash.
+- SQL only with parameters (`?`). Never build a query string from user data.
+- Store passwords only as a hash (`node:crypto` `scrypt`). Never store plain passwords.
+- Secrets go to environment variables and a `.env` file that is in `.gitignore`. Not in code, logs, or the browser.
+- Server errors do not show internals to the user: stack traces, SQL, file paths.
+- Start external programs with an argument array. No `shell: true`, no command strings built from data.
 
-## Проверка перед сдачей
+## Before handover
 
-1. Запусти тесты проекта. Если есть скрипты `typecheck`, `lint`, `build` — запусти и их.
-2. Открой результат в браузере или отправь запрос к серверу и посмотри, что работает.
-3. Прочитай весь diff.
-4. Отчитайся на русском: что сделано, что запущено, что не проверено. Не выдавай непроверенное за проверенное.
+1. Run the project tests. Run `typecheck`, `lint`, and `build` scripts if they exist.
+2. Open the result in the browser, or send a request to the server, and check that it works.
+3. Read the whole diff.
+4. Report in Russian: what changed, what you ran, what you did not check. Do not present an unchecked result as checked.

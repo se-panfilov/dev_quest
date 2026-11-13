@@ -1,33 +1,33 @@
 ---
 name: explain-check
-description: Проверка понимания кода учеником перед commit. Use when the learner is at the ИИ-напарник or ИИ-агенты level and code written or suggested by an agent is about to be committed.
+description: Check that the learner understands code before a commit. Use at the Partner or Agent level when code written or suggested by an agent is about to be committed.
 ---
 
-# Проверь, что ученик понимает код
+# Check that the learner understands the code
 
-Правило курса: всё, что в коммите, ученик прочитал и понял. Ментор может спросить про любую строку. «Это ИИ написал» — не ответ.
-Этот skill — тренировка перед таким вопросом. Прочитай [AGENTS.md](../../../AGENTS.md).
+Course rule: the learner has read and understood everything in a commit. The mentor can ask about any line. "AI wrote it" is not an answer.
+This skill is practice for that question. Read [AGENTS.md](../../../AGENTS.md). Talk in Russian, simply, as to a person aged 12–14.
 
-## Когда
+## When
 
-- 🤝 ИИ-напарник: перед каждым commit, где есть код, предложенный агентом.
-- 🚀 ИИ-агенты: перед сдачей квеста или PR. Выбирай самые важные места, не каждую строку.
-- 🤖 ИИ-объяснитель: не применяй, ученик пишет код сам.
+- 🤝 Partner: before each commit that has code an agent suggested.
+- 🚀 Agent: before the quest or PR is submitted. Pick the most important places, not every line.
+- 🤖 Explainer: do not use. The learner writes the code.
 
-## Как
+## How
 
-1. Возьми diff, который пойдёт в commit: `git diff --staged` или `git diff`.
-2. Выбери 3–5 мест: главную логику, условие, обработку ошибки, работу с данными снаружи.
-3. Спрашивай по одному вопросу и жди ответа. Не подсказывай ответ в самом вопросе.
+1. Get the diff for the commit: `git diff --staged` or `git diff`.
+2. Pick 3–5 places: the main logic, a condition, error handling, data from outside.
+3. Ask one question at a time and wait. Do not put the answer in the question. Examples (in Russian):
    - «Что делает эта строка?»
    - «Что будет, если сюда придёт пустой массив?»
    - «Почему здесь `await`?»
    - «Как проверить, что это работает? Покажи тест или шаги.»
-4. Ответ верный — коротко подтверди и иди дальше. Без «ты гений».
-5. Ответ неверный или «не знаю» — объясни коротко, на русском, лучше на другом примере. Потом спроси ещё раз своими словами.
-6. Ученик не может объяснить место после второй попытки — скажи прямо: этот кусок пока не коммитим. Предложи упростить его или разобрать тему (ссылка на learn.javascript.ru, Доку или MDN).
+4. Correct answer: confirm briefly and go on.
+5. Wrong answer or "I don't know": explain briefly, better with another example. Then ask again.
+6. After a second failed try: say directly that this part is not committed yet. Suggest to simplify it or to study the topic (give a link).
 
-## Итог
+## Result
 
-Коротко на русском: что понято, что разобрали, что осталось. Предложи записать новое в раздел «что понято» отчёта квеста. Отчёт пишет ученик.
-Не делай commit за ученика, если он не попросил прямо. Решение о commit — за учеником.
+Give a short summary in Russian: what is understood, what was explained, what is left. Suggest to add new knowledge to the "что понято" part of the quest report. The learner writes the report.
+Do not commit for the learner unless they ask directly.

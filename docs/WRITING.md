@@ -1,58 +1,59 @@
-# Правила письма
+# Writing rules
 
-Правила для агентов и людей, которые пишут тексты в этом репозитории и общаются с учеником.
-Основа — [ASD-STE100, Issue 9](https://www.asd-ste100.org/) (Simplified Technical English), перенесённый на русский язык.
-Стандарт написан для английского. Здесь взяты его правила о структуре текста, а не словарь.
+Rules for agents that write text in this repository or talk to the learner.
+The base is [ASD-STE100, Issue 9](https://www.asd-ste100.org/) (Simplified Technical English).
+Agent instructions use it in English. Russian texts use its structure rules, not its dictionary.
 
-## Язык
+## Language
 
-| Что | Язык |
+| What | Language |
 | --- | --- |
-| Общение с учеником, ответы и вопросы агента | Русский |
-| Документация, README, отчёты агента, комментарии в коде | Русский |
-| Commit, заголовок и описание PR | Русский |
-| Имена переменных, функций, файлов, веток | Английский (ASCII) |
-| Термины и понятия: `commit`, `pull request`, `props`, `callback` | Можно на английском, как есть |
-| Команды, пути, идентификаторы, надписи интерфейса, тексты лицензий | Точно как в оригинале |
+| Talk with the learner and the mentor, agent questions and answers | Russian |
+| Documentation, READMEs, agent reports, code comments | Russian |
+| Commits, PR titles and descriptions | Russian |
+| Agent instructions: `AGENTS.md`, skills, adapters, this file | English |
+| Code identifiers, file names, branch names | English (ASCII) |
+| Terms: `commit`, `pull request`, `props`, `callback` | English is allowed, as is |
+| Commands, paths, identifiers, UI labels, license text | Exact, as in the source |
 
-- Английский вне терминов — простой, уровня A2: короткие фразы, частые слова, без идиом. Например, «Read the error message» можно, «Let's dig into this gnarly edge case» — нет.
-- Голландский допустим. Ученик может писать по-голландски или вставлять голландские слова. Пойми и отвечай по-русски. Голландское слово можно использовать, если ученик сам его использует или так понятнее.
-- Ученику объясняй просто, как человеку 12–14 лет: короткие фразы, бытовые сравнения, один новый термин за раз. Без снисходительности.
-- Новый термин на английском объясни при первом упоминании одной фразой по-русски: «`props` — входные данные компонента».
+- English text for the learner, other than terms: A2 level. Short phrases, common words, no idioms. "Read the error message" is fine. "Let's dig into this gnarly edge case" is not.
+- The learner can write in Dutch or use Dutch words. Understand it and answer in Russian. You can use a Dutch word if the learner uses it or if it helps.
+- Explain a new English term the first time, in one Russian sentence: «`props` — входные данные компонента».
+- For the learner, explain simply, as to a person aged 12–14: short sentences, everyday comparisons, one new term at a time. Simple is not childish.
 
-## Как писать
+## Structure (English and Russian)
 
-1. Один термин для одного понятия. Не называй одно и то же «квест», «задание» и «таска» в одном тексте.
-2. Одно действие — одно предложение.
-3. Инструкции — в повелительном наклонении, активный залог: «Запусти тесты», а не «Тесты должны быть запущены».
-4. Условие — до действия: «Если тесты красные, прочитай первую ошибку».
-5. Предупреждение о потере данных — до действия, а не после.
-6. Предложение в инструкции — до 20 слов. Описательное — до 25 слов.
-7. Абзац — до шести предложений.
-8. Без точки с запятой в обычном тексте.
-9. Сравнения и соответствия — таблицей.
-10. Текст совпадает с реальным поведением: значения по умолчанию, вопросы программы, ошибки.
+1. Use one term for one concept. Do not call one thing "quest", "task", and "exercise" in one text.
+2. Put one instruction in one sentence.
+3. Use the imperative and the active voice for instructions.
+4. Put a condition before the instruction: "If the tests are red, read the first error."
+5. Put a data-loss caution before the action.
+6. Keep instruction sentences to 20 words and descriptive sentences to 25 words.
+7. Keep paragraphs to six sentences.
+8. Do not use semicolons in prose.
+9. Use tables for comparisons and mappings.
+10. Keep text consistent with real behavior: defaults, prompts, errors.
 
-## Статус утверждения
+## Status marks
 
-В документации для ментора и шаблона отмечай статус всего, что не является простым фактом.
+In mentor and template documents, mark the status of each statement that is not a plain fact.
 
-| Метка | Значение |
-| --- | --- |
-| **Черновик** | Раздел может меняться без решения человека |
-| **Предложение** | Рекомендация, ещё не принята |
-| **Принято** | Человек принял решение |
-| **Допущение** | Не проверено. Напиши, как проверить |
-| **Проверено** | Подтверждено тестом или первоисточником. Назови его |
+| English | Russian | Meaning |
+| --- | --- | --- |
+| **Draft** | **Черновик** | Can change without a human decision |
+| **Proposed** | **Предложение** | A recommendation, not accepted |
+| **Accepted** | **Принято** | A human decided |
+| **Assumption** | **Допущение** | Not verified. Say how to verify |
+| **Verified** | **Проверено** | Confirmed by a test or a primary source. Name it |
 
-## Лицензии и цены
+## Licenses and prices
 
-Называя инструмент, библиотеку или модель, укажи лицензию.
-Не называй «open source» то, что ограничено лицензией. Назови лицензию.
-Цену указывай только с датой проверки.
+When you name a tool, a library, or a model, give its license.
+Do not call software "open source" when its license restricts use. Name the license.
+Give a price only with the date of the check.
 
-## Описание PR
+## PR descriptions
 
-- Начинай с `## tl;dr`: один-два коротких абзаца простым языком, что и зачем поменялось. Без необъяснённых терминов.
-- Дальше — что сделано, что проверено и как, что не проверено и какие остались ограничения.
-- Описывай итоговое изменение, а не историю попыток.
+- Start with `## tl;dr`: one or two short paragraphs in plain Russian. Explain any technical term.
+- Then: what changed, what you checked and how, what you did not check, remaining limits.
+- Describe the final change, not the history of attempts.

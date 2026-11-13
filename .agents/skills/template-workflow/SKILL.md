@@ -1,61 +1,53 @@
 ---
 name: template-workflow
-description: Порядок работы над шаблоном Dev Quest. Use before changing quests, the hub map, exercises, workflows, or mentor and learner documentation.
+description: Workflow for changes to the Dev Quest template. Use before you change quests, the hub map, exercises, workflows, or mentor and learner docs.
 ---
 
-# Работа над шаблоном
+# Change the template
 
-Прочитай [AGENTS.md](../../../AGENTS.md): там права, решения человека и безопасность. Здесь — порядок работы и проверки.
-Код пиши по [стандартам кода](../code-standards/SKILL.md). Тексты — по [правилам письма](../../../docs/WRITING.md).
+[AGENTS.md](../../../AGENTS.md) holds permissions, human decisions, and security. This skill holds the steps and checks.
+Write code by [code-standards](../code-standards/SKILL.md). Write texts by [docs/WRITING.md](../../../docs/WRITING.md).
 
-## Перед изменением
+## Before a change
 
-1. Прочитай файлы, которые меняешь, и связанные: `README.md`, `MENTOR.md`, `hub/quests.js`, `hub/help.js`, README упражнения.
-2. Найди все места, где упоминается то, что меняешь: `grep -rn "<id или слово>" hub exercises README.md MENTOR.md .github`.
-3. Проверь, не задевает ли изменение решения человека из AGENTS.md: уровни ИИ, XP, `id` квестов, права workflow.
+1. Read the files you change and the related ones: `README.md`, `MENTOR.md`, `hub/quests.js`, `hub/help.js`, the exercise README.
+2. Find every mention of what you change: `grep -rn "<id or word>" hub exercises README.md MENTOR.md .github`.
+3. Check whether the change touches a human decision from AGENTS.md: levels, XP, quest ids, workflow permissions.
 
-## Карта (`hub/`)
+## Map (`hub/`)
 
-- Без сборки: скрипты подключаются тегом `<script>` в `index.html` и общаются через `window.*`. Карта работает с GitHub Pages и с диска.
-- `hub/config.js` в шаблоне остаётся с пустыми полями. `hub/progress.js` — с пустым списком. Это данные форка.
-- Прогресс считается по PR из веток `quest/<id>`. Не меняй это без решения человека.
+- No build. Scripts load with `<script>` tags in `index.html` and share data through `window.*`. The map works on GitHub Pages and from disk.
+- Progress comes from PRs from branches `quest/<quest-id>`. Do not change this without a human decision.
 
-## Квесты (`hub/quests.js`)
+## Quests (`hub/quests.js`)
 
-- `id`: `w<мир>-q<номер>` или `w<мир>-boss`. Существующий `id` не меняй и не удаляй: это имена веток и PR в форках.
-- Типы: `quest`, `side`, `boss`. Поля и XP смотри у соседних квестов того же типа.
-- Тексты для ученика: на русском, прямо, с юмором, без сюсюканья. Без привязки к полу: «сделал(а)». Ревьюер — `{reviewer}`.
-- Редактор в шагах — только WebStorm. Горячие клавиши давай для Windows и Mac.
-- Ссылки — на бесплатные ресурсы, русскоязычные где возможно. Проверь, что ссылка открывается.
+- Ids: `w<world>-q<number>` or `w<world>-boss`. Never change or remove an existing id.
+- Types: `quest`, `side`, `boss`. Copy fields and XP from neighbor quests of the same type.
+- Editor steps: WebStorm only. Give shortcuts for Windows and Mac.
+- Links: free resources, Russian where possible. Check that each link opens.
 
-## Упражнения (`exercises/`)
+## Exercises (`exercises/`)
 
-- README упражнения говорит, куда скопировать папку (`projects/<id>/`), как запустить тесты и что не трогать.
-- Заготовка проваливает тесты. Красное → зелёное — это и есть задание.
-- Тесты проверяют поведение из README, а не одну конкретную реализацию.
-- Проверь на решении во временной папке вне репозитория, что тесты могут стать зелёными. Решение не коммить.
-- Картинки — только если без них нельзя, и маленькие.
+- The exercise README says where to copy the folder (`projects/<quest-id>/`), how to run tests, and what not to touch.
+- The starter code fails the tests. Red to green is the task.
+- Tests check the behavior from the README, not one implementation.
+- Check in a temporary folder outside the repository that a solution can pass. Do not commit the solution.
+- Add images only when needed, and keep them small.
 
-## Workflow (`.github/`)
+## Workflows (`.github/`)
 
-- Workflow работает в любом форке, без жёстко прописанного владельца.
-- Правила безопасности для Actions — в AGENTS.md. Для проверки используй skill [gha-security-review](../gha-security-review/SKILL.md).
+- A workflow works in any fork, without a hard-coded owner.
+- For a security check, use [gha-security-review](../gha-security-review/SKILL.md).
 
-## Проверка
+## Checks
 
 ```bash
-# Тесты упражнения на заготовке (должны упасть)
-cd exercises/<упражнение> && node --test
+# Exercise tests on the starter code (must fail)
+cd exercises/<exercise> && node --test
 
-# quests.js загружается (так же его читает quest.yml)
-node -e 'const fs=require("fs"),vm=require("vm");const c={window:{}};vm.runInNewContext(fs.readFileSync("hub/quests.js","utf8"),c);console.log(c.window.QUEST_DATA.worlds.length,"миров")'
+# quests.js loads (quest.yml reads it the same way)
+node -e 'const fs=require("fs"),vm=require("vm");const c={window:{}};vm.runInNewContext(fs.readFileSync("hub/quests.js","utf8"),c);console.log(c.window.QUEST_DATA.worlds.length,"worlds")'
 ```
 
-- Изменил(а) карту — открой `index.html` в браузере. Карта строится, в консоли нет ошибок.
-- Правка только текста — проверь ссылки, команды и согласованность `README.md`, `MENTOR.md`, `hub/help.js`, `hub/quests.js`.
-
-## Сдача
-
-- Ветка `<тип>/<кратко_по_английски>`, PR на русском, описание начинается с `## tl;dr`.
-- Заголовок коммита не начинается с `id` квеста.
-- Отчёт: что сделано, что проверено и как, что не проверено.
+- Map change: open `index.html` in a browser. The map renders and the console has no errors.
+- Text-only change: check links, commands, and agreement between `README.md`, `MENTOR.md`, `hub/help.js`, and `hub/quests.js`.

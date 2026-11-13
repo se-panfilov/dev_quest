@@ -15,20 +15,20 @@ by StepSecurity (2025): https://www.stepsecurity.io/blog/hackerbot-claw-github-a
 
 ## Project integration
 
-Прочитай [AGENTS.md](../../../AGENTS.md), включая раздел «Безопасность», до того, как применять порядок работы ниже.
-Skill только читает. Не делай push, не открывай PR, не запускай workflow и не отправляй payload для проверки. PoC — только письменный набросок.
-Bash убран из `allowed-tools`. Команды подчиняются обычным правилам прав хоста.
-Что считать уязвимостью, решают модель угроз и правила «do not flag» ниже.
-Учти устройство проекта: `quest.yml` запускается на push веток `quest/**` внутри форка ученика и открывает PR в том же форке.
-Правила проекта строже. Отклонения от них перечисли отдельным разделом «Отклонения от правил», даже если атаковать нечем:
+Read [AGENTS.md](../../../AGENTS.md), including its Security section, before you apply the workflow below.
+This skill is read-only. Do not push, open pull requests, trigger workflows, or send payloads to test a finding. A PoC is a written sketch only.
+Bash is removed from `allowed-tools`. Commands follow the normal permission rules of the host.
+The upstream threat model and the "do not flag" rules decide what is an exploitable finding.
+Project context: `quest.yml` runs on pushes to `quest/**` branches inside the learner's fork and opens a PR in the same fork.
+The project rules are stricter. Report a deviation from them in a separate "Policy deviations" section, even when no attacker can exploit it:
 
-- action не закреплён полным SHA коммита с комментарием версии (для новых и изменённых workflow);
-- у job есть права токена, которые ей не нужны, или checkout без `persist-credentials: false`, когда токен для git не нужен;
-- выражение `${{ }}` с входными данными прямо в тексте `run`;
-- токен публикации или секрет в репозитории или workflow;
-- workflow скачивает большие внешние артефакты, вызывает платный API или отправляет данные проекта без решения человека.
+- An action not pinned to a full commit SHA with a version comment (new and changed workflows).
+- A job token permission that the job does not need, or a checkout without `persist-credentials: false` when no Git token is needed.
+- An input `${{ }}` expression in `run` text.
+- A publication token or secret in the repository or workflows.
+- A workflow that downloads large external artifacts, calls a paid API, or uploads project data without a human decision.
 
-Отчёт пиши на русском. Как поступить с находкой, решает человек.
+Write the report in Russian. A human decides how to handle each finding.
 
 ## Upstream workflow
 

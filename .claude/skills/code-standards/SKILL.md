@@ -1,7 +1,7 @@
 ---
 name: code-standards
-description: Стандарты кода для проектов ученика и шаблона. Use before writing, suggesting, or reviewing code in projects/, exercises/, or hub/.
+description: Code standards for learner projects and the template. Use before you write, suggest, or review code in projects/, exercises/, or hub/.
 ---
 
-Прочитай [общий skill](../../../.agents/skills/code-standards/SKILL.md) и выполняй его.
-Этот файл нужен только для того, чтобы Claude Code нашёл skill. Правила меняются в общем файле.
+Read [the shared skill](../../../.agents/skills/code-standards/SKILL.md) and follow it.
+This file only lets Claude Code discover the skill. Change the rules in the shared file.

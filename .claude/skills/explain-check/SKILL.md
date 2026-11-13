@@ -1,7 +1,7 @@
 ---
 name: explain-check
-description: Проверка понимания кода учеником перед commit. Use when the learner is at the ИИ-напарник or ИИ-агенты level and code written or suggested by an agent is about to be committed.
+description: Check that the learner understands code before a commit. Use at the Partner or Agent level when code written or suggested by an agent is about to be committed.
 ---
 
-Прочитай [общий skill](../../../.agents/skills/explain-check/SKILL.md) и выполняй его.
-Этот файл нужен только для того, чтобы Claude Code нашёл skill. Правила меняются в общем файле.
+Read [the shared skill](../../../.agents/skills/explain-check/SKILL.md) and follow it.
+This file only lets Claude Code discover the skill. Change the rules in the shared file.

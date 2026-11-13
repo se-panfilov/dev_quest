@@ -7,15 +7,15 @@ description: Grill the user relentlessly about a plan, decision, or idea. Use wh
 
 ## Project integration
 
-Прочитай [AGENTS.md](../../../AGENTS.md) до того, как применять текст ниже. Правила AGENTS.md важнее этого skill.
-Отвечай, задавай вопросы и пиши отчёт на русском по [правилам письма](../../../docs/WRITING.md). Английские термины допустимы.
-Если перед тобой ученик, сначала определи его уровень ИИ по AGENTS.md. Skill не повышает уровень и не даёт новых прав.
-Задавай вопросы и рекомендованные ответы на русском.
-Спрашивай только то, что заметно меняет объём, безопасность или поведение. Факты из репозитория ищи сам(а).
-Subagent для поиска фактов — только если он есть в хосте. Иначе ищи в текущей сессии, только чтением.
-Ответ на вопрос не заменяет решение, которое AGENTS.md оставляет человеку.
-С учеником используй skill для планов: квест, босс, проект мира 8. Вопросы — про то, *что* и *зачем* делать, не готовый код.
-Рекомендованный ответ в режиме 🤖 ИИ-объяснителя — вариант для выбора, а не решение задачи.
+Read [AGENTS.md](../../../AGENTS.md) before you apply the text below. AGENTS.md wins over this skill.
+Talk, ask, and report in Russian by [docs/WRITING.md](../../../docs/WRITING.md). English terms are allowed.
+If the user is the learner, find the learner level first (see AGENTS.md). This skill grants no level and no permission.
+Ask the questions and give the recommended answers in Russian.
+Ask only questions that materially change scope, safety, or behavior. Look up repository facts yourself.
+Use a subagent for a fact lookup only if the host has one. Otherwise, do the read-only lookup in the current session.
+An answer does not replace a decision that AGENTS.md reserves for a human.
+With the learner, use this skill for plans: a quest, a boss, the world 8 project. Ask about *what* and *why*, not for ready code.
+In 🤖 Explainer mode, a recommended answer is an option to choose, not the task solution.
 
 ## Upstream workflow
 
