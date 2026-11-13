@@ -24,6 +24,12 @@ __temp*
 *.tgz
 
 # Editor directories and files
+# .vscode вне git: tasks.json, settings.json, launch.json и mcp.json могут запускать команды
+# при открытии папки. Исключение — extensions.json (только список рекомендаций, ничего не запускает).
+.vscode/*
+!.vscode/extensions.json
+# Visual Studio
+.vs/
 .idea
 .DS_Store
 *.suo
