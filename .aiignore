@@ -17,7 +17,6 @@ out/
 reports/
 coverage/
 
-apps/**/public/
 **/*.glb
 **/*.gltf
 **/*.bin
