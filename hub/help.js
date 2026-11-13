@@ -52,6 +52,23 @@ window.HELP_CARDS = [
 <p class="tip">Tab дописывает имена файлов. Стрелка ↑ повторяет прошлую команду. Печатать всё руками — для мазохистов.</p>`,
   },
   {
+    emoji: "🧰",
+    title: "WebStorm: горячие клавиши",
+    html: `
+<table>
+  <tr><td><code>Shift</code> <code>Shift</code></td><td>Найти что угодно: файл, настройку, действие. Если забыл(а) клавишу — начинай отсюда</td></tr>
+  <tr><td><code>Alt+F12</code></td><td>Открыть/скрыть терминал</td></tr>
+  <tr><td><code>Alt+Enter</code></td><td>Лампочка: «что тут не так и как починить»</td></tr>
+  <tr><td><code>Ctrl+/</code></td><td>Закомментировать строку (и обратно)</td></tr>
+  <tr><td><code>Ctrl+Alt+L</code></td><td>Навести красоту: отформатировать файл</td></tr>
+  <tr><td><code>Ctrl+D</code></td><td>Дублировать строку</td></tr>
+  <tr><td><code>Ctrl+Shift+F</code></td><td>Поиск по всем файлам проекта</td></tr>
+  <tr><td><code>Ctrl+Z</code> / <code>Ctrl+Shift+Z</code></td><td>Отменить / вернуть</td></tr>
+  <tr><td><code>Alt+1</code></td><td>Показать/скрыть дерево файлов (на Mac — ⌘1)</td></tr>
+</table>
+<p class="tip">На Mac вместо Ctrl — ⌘, вместо Alt — ⌥. Сохранять не нужно: WebStorm сохраняет сам. А вот коммитить — нужно, это уже git.</p>`,
+  },
+  {
     emoji: "🆘",
     title: "Застрял?",
     html: `

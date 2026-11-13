@@ -40,9 +40,16 @@ XP, уровень, бейдж и отзыв появляются на карт�
 7. **Защита master (желательно).** Settings → Branches → *Add rule* для `master`:
    *Require a pull request before merging* + *Require approvals: 1*. Тогда в master попадает только то,
    что вы одобрили. (На бесплатном аккаунте правила работают для публичных репозиториев.)
-8. **Компьютер ученика.** Установите [VS Code](https://code.visualstudio.com/), [Git](https://git-scm.com/)
-   и [Node.js LTS](https://nodejs.org/ru). На Windows в VS Code сделайте терминалом по умолчанию **Git Bash**
-   (Ctrl+Shift+P → *Terminal: Select Default Profile*): команды в карточках написаны для bash.
+8. **Компьютер ученика.** Установите [WebStorm](https://www.jetbrains.com/webstorm/download/),
+   [Git](https://git-scm.com/) и [Node.js LTS](https://nodejs.org/ru). WebStorm бесплатен для некоммерческого
+   использования: при первом запуске выберите *Non-commercial use*. Плагины не нужны, всё нужное встроено.
+   Настройки WebStorm (Settings: Ctrl+Alt+S, на Mac ⌘,):
+   - На Windows: *Tools → Terminal → Shell path* → `C:\Program Files\Git\bin\bash.exe` (Git Bash):
+     команды в карточках написаны для bash.
+   - *Languages & Frameworks → Node.js → Node interpreter* — установленный Node.js LTS (обычно подхватывается сам).
+   - *Tools → Web Browsers and Preview → Reload behavior → In browser*: **On Change** — страница в браузере
+     обновляется сама, пока ученик печатает.
+   - Отступы и переводы строк WebStorm берёт из `.editorconfig` в корне репозитория, отдельно настраивать не нужно.
 9. **Вход в GitHub с компьютера.** Проще всего [GitHub CLI](https://cli.github.com/):
    ```bash
    gh auth login          # GitHub.com → HTTPS → войти через браузер
